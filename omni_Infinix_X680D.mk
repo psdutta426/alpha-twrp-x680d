@@ -12,7 +12,7 @@ PRODUCT_USE_DYNAMIC_PARTITIONS := true
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit some common Omni stuff.
-$(call inherit-product, vendor/twrp/config/common.mk)
+$(call inherit-product, vendor/omni/config/common.mk)
 
 # Inherit from Infinix-X680D device
 $(call inherit-product, device/infinix/Infinix_X680D/device.mk)
