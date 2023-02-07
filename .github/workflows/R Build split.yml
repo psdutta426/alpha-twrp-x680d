@@ -50,7 +50,8 @@ jobs:
     runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
   name: build
-    steps:
+  steps:
+
     - name: Display Run Parameters
       run: |
         echo "::group::User Environment Variables"
