@@ -45,7 +45,8 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  init:
+  name: init
     if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
@@ -113,8 +114,10 @@ jobs:
       working-directory: workspace
 
   devpart:
+    name: devpart
+
+      needs: init
       runs-on: ubuntu-20.04
-      needs: build
       steps:
     - name: Clone device tree
       run: |
