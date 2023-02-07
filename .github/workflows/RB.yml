@@ -113,6 +113,9 @@ jobs:
         repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
 
+     env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   devpart:
       name: Devpart
       needs: init
