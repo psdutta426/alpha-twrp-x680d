@@ -46,8 +46,8 @@ permissions:
 
 jobs:
   init:
-  name: init
-   # if: github.event.repository.owner.id == github.event.sender.id
+  name: Init
+    if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
@@ -114,8 +114,7 @@ jobs:
       working-directory: workspace
 
   devpart:
-    name: devpart
-
+      name: Devpart
       needs: init
       runs-on: ubuntu-20.04
       steps:
