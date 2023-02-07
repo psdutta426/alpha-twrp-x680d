@@ -113,7 +113,8 @@ jobs:
       working-directory: workspace
 
   devpart:
-      #needs: build
+      runs-on: ubuntu-20.04
+      needs: build
       steps:
     - name: Clone device tree
       run: |
