@@ -1,4 +1,4 @@
-name: Recovery Build twrp
+name: RB twrp parted 
 
 on:
   workflow_dispatch:
@@ -14,11 +14,11 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/psdutta426/android_device_infinix_Infinix_X680D'
+        default: 'https://github.com/psdutta426/alpha-twrp-x680d'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
-        default: 'full_x680d_h6116-user-10-QP1A.190711.020-199789-release-keys'
+        default: 'main'
       DEVICE_PATH:
         description: 'DEVICE_PATH'
         required: true
