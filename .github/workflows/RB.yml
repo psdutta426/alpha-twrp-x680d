@@ -47,7 +47,7 @@ permissions:
 jobs:
   init:
   name: init
-    if: github.event.repository.owner.id == github.event.sender.id
+   # if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
     steps:
