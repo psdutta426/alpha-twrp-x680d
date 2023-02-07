@@ -115,7 +115,6 @@ jobs:
 
   make:
   name: make
-  needs: build
   steps:
     - name: Clone device tree
       run: |
