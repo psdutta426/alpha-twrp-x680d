@@ -46,11 +46,13 @@ permissions:
 
 jobs:
   init:
+  runs-on: ubuntu-20.04
   name: Init
-    if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-20.04
+   # if: github.event.repository.owner.id == github.event.sender.id
+   # runs-on: ubuntu-20.04
     # You can use either of the ubuntu-18.04 or ubuntu-20.04 runner
-    steps:
+  
+  steps:
     - name: Display Run Parameters
       run: |
         echo "::group::User Environment Variables"
@@ -113,7 +115,7 @@ jobs:
         repo sync -j$(nproc --all) --force-sync
       working-directory: workspace
 
-     env:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   devpart:
@@ -121,55 +123,55 @@ jobs:
       needs: init
       runs-on: ubuntu-20.04
       steps:
-    - name: Clone device tree
-      run: |
-        git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+       - name: Clone device tree
+         run: |
+          git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+          working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Clone common tree
-      if: |
-        github.event.inputs.COMMON_TREE_URL != null
-        && github.event.inputs.COMMON_PATH != null
-      run: |
-        git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+       - name: Clone common tree
+          if:|
+           github.event.inputs.COMMON_TREE_URL != null
+           && github.event.inputs.COMMON_PATH != null
+           run:|
+             git clone ${{ github.event.inputs.COMMON_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.COMMON_PATH }}
+            working-directory:${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Check Build Tree
-      uses: haya14busa/action-cond@v1
-      id: buildtree
-      with:
-        cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-11' || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
-        if_true: twrp
-        if_false: omni
+       - name: Check Build Tree
+         uses: haya14busa/action-cond@v1
+         id: buildtree
+         with:
+           cond: ${{ github.event.inputs.MANIFEST_BRANCH == 'twrp-11' || github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1' }}
+           if_true: twrp
+           if_false: omni
 
-    - name: Sync Device Dependencies
-      run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
-        repo sync -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-      continue-on-error: true
+       - name: Sync Device Dependencies
+         run: |
+          bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
+          repo sync -j$(nproc --all)
+          working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+          continue-on-error: true
 
-    - name: Set Swap Space
-      uses: pierotofy/set-swap-space@master
-      with:
-        swap-size-gb: 12
+       - name: Set Swap Space
+         uses: pierotofy/set-swap-space@master
+         with:
+           swap-size-gb: 12
 
-    - name: Building recovery
-      run: |
-        source build/envsetup.sh
-        export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+       - name: Building recovery
+          run:|
+           source build/envsetup.sh
+           export ALLOW_MISSING_DEPENDENCIES=true
+           lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+           working-directory:${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img
-        name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
-          Device: ${{ github.event.inputs.DEVICE_NAME }}
-          Target: ${{ github.event.inputs.BUILD_TARGET }}.img
+       - name: Upload to Release
+         uses: softprops/action-gh-release@v1
+         with:
+           files: workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.img
+           name: ${{ github.event.inputs.DEVICE_NAME }}-${{ github.run_id }}
+           tag_name: ${{ github.run_id }}
+           body: |
+             Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
+             Device: ${{ github.event.inputs.DEVICE_NAME }}
+             Target: ${{ github.event.inputs.BUILD_TARGET }}.img
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
