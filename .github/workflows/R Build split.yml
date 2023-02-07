@@ -114,7 +114,7 @@ jobs:
       working-directory: workspace
 
   make:
-  name: make
+  name: Make
   steps:
     - name: Clone device tree
       run: |
