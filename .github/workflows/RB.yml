@@ -113,7 +113,7 @@ jobs:
       working-directory: workspace
 
   devpart:
-      needs: build
+      #needs: build
       steps:
     - name: Clone device tree
       run: |
