@@ -79,6 +79,15 @@ BOARD_INCLUDE_RECOVERY_DTBO := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
+TARGET_RECOVERY_DEVICE_MODULES += libpuresoftkeymasterdevice
+TARGET_RECOVERY_DEVICE_MODULES += ashmemd_aidl_interface-cpp
+TARGET_RECOVERY_DEVICE_MODULES += libashmemd_client
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libashmemd_client.so 
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/ashmemd_aidl_interface-cpp.so
+
+RECOVERY_SDCARD_ON_DATA := true
+
 # Security patch level
 VENDOR_SECURITY_PATCH := 2021-08-01
 
@@ -101,6 +110,10 @@ TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
+TW_MAX_BRIGHTNESS := 2047
+TW_DEFAULT_BRIGHTNESS := 1200
+TW_EXCLUDE_TWRPAPP := true
+RECOVERY_SDCARD_ON_DATA := true
 
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
@@ -113,7 +126,7 @@ TW_INCLUDE_CRYPTO_FBE := true
 #TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,barrier=0,data=ordered"
 
 #TARGET_RECOVERY_DEVICE_MODULES += \
-    libkeymaster4 \
-    libpuresoftkeymasterdevice \
-    ashmemd_aidl_interface-cpp \
-    libashmemd_client
+  #  libkeymaster4 \
+   # libpuresoftkeymasterdevice \
+   # ashmemd_aidl_interface-cpp \
+  #  libashmemd_client
