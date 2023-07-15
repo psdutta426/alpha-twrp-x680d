@@ -116,8 +116,8 @@ TW_DEFAULT_BRIGHTNESS := 1200
 TW_EXCLUDE_TWRPAPP := true
 RECOVERY_SDCARD_ON_DATA := true
 
-TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
+#TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_CRYPTO_FBE := true
 #TW_CRYPTO_FS_TYPE := "f2fs"
 
 #TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/bootdevice/by-name/userdata"
